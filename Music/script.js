@@ -101,8 +101,8 @@ function next(){
     }
     setTimeout(() => {
         textReDecor()
-    }, 500);
-}, 500);
+    }, 300);
+}, 100);
 }
 function prev(){
     textDecor()
@@ -120,8 +120,8 @@ function prev(){
         }
         setTimeout(() => {
             textReDecor()
-        }, 500);
-    }, 500);
+        }, 300);
+    }, 100);
 }
 function shuffle(){
     let x
@@ -214,9 +214,11 @@ function changePlayerInfo(x){
     root.style.setProperty('--iconAccent', x.accent)
     plbg.style.backdropFilter = `blur(3rem) brightness(0%) saturate(20%)`
     plicon.style.filter = `brightness(0%)`
+    textDecor()
     setTimeout(() => {
         plbg.style.backgroundImage = `url(${x.avatar}`
         plicon.src = x.avatar
+        textReDecor()
         plbg.style.backdropFilter = `blur(3rem) brightness(50%) saturate(20%)`
         plicon.style.filter = `brightness(100%)`
     }, 500);
@@ -298,14 +300,14 @@ function textDecor(){
             strong[i].style.color = 'var(--iconAccent)'
             setTimeout(() => {
                 strong[i].classList.add('tilted')
-            }, 500);
+            }, 200);
         }
         for (let i = 0; i < numdt; i++) {
             await sleep(10)
             span[i].style.color = 'var(--iconAccent)'
             setTimeout(() => {
                 span[i].classList.add('upped')
-            }, 500);
+            }, 200);
         }
         pltitle.style.opacity = '0%'
         plsgr.style.opacity = '0%'

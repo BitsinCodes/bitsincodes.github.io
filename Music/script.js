@@ -1,6 +1,11 @@
 let audioFile = document.getElementById("audioFile")
+let songNumber = 0
+let sButton = document.getElementById('shufButton')
+let shuffled = false
+let prevButton = document.getElementById('prevButton')
 let pButton = document.getElementById("playButton")
 let musicOn = false
+let nextButton = document.getElementById('nextButton')
 let mButton = document.getElementById("mutebutton")
 let volumeOn = true
 let rCont = document.getElementById(`rcont`)
@@ -24,15 +29,15 @@ for (let i = 0; i < songID.length; i++) {
     }
 }
 let singerName = [`the Kid LAROI`, 'Zach B', 'Zach B', 'M.I.A.', 'Seafret', 'Chevy', 'Krishnahazar', 'Chevy']
-let uploader = [`Bitsin`, 'Bitsin', 'Bitsin', 'Maxi', 'Monkey', 'Mahdi', 'Hell', 'Mahdi']
-let accent = [`#978e75`, `#c264a6`, '#272571', '#715755', '#564E4B', '#846699', '#AD825D', '#72556B']
+let uploader = [`chipp`, 'chipp', 'chipp', 'Maxi', 'Monkey', 'Mahdi', 'Hell', 'Mahdi']
+let accent = [`#978E75`, `#c264a6`, '#272571', '#715755', '#564E4B', '#846699', '#AD825D', '#72556B']
 
 let jpglink = `https://lets.linkpc.net/icons/`
 let avatar = []
 for (let i = 0; i < songID.length; i++) {
     avatar.push(`${jpglink}${songID[i]}.jpg`)
 }
-let mp3link = `https://lets.linkpc.net/songs/`
+let mp3link = "https://lets.linkpc.net/songs/"
 let audio = []
 for (let i = 0; i < songID.length; i++) {
     audio.push(`${mp3link}${songID[i]}.mp3`)
@@ -46,6 +51,9 @@ for (let i = 0; i < songID.length; i++) {
     songList[i] = new Song(songID[i], songFull[i], songName[i], singerName[i], uploader[i], accent[i], avatar[i], audio[i])
 }
 let songCont = document.getElementById('songList')
+let playerOn = true
+let section = document.getElementById('sectionOne')
+let rcont = document.getElementById('rcont')
 
 
 
@@ -78,11 +86,9 @@ function unmute(){
     mButton.innerHTML = "<i class='fa-solid fa-volume-high'>"
     volumeOn = true
 }
-
-let shuffled = false
-
-let songNumber = 0
 function next(){
+    textDecor()
+    setTimeout(() => {
     if(!shuffled){
     songNumber++
     if (songNumber >= songID.length){
@@ -93,20 +99,30 @@ function next(){
         shuffle()
         changePlayerInfo(songList[songNumber])
     }
+    setTimeout(() => {
+        textReDecor()
+    }, 500);
+}, 500);
 }
 function prev(){
-    if(!shuffled){
-        songNumber--
-    if (songNumber == 0){
-        songNumber = songID.length
-    }
-    changePlayerInfo(songList[songNumber])}
-    else if(shuffled){
-        shuffle()
+    textDecor()
+    setTimeout(() => {
+        if(!shuffled){
+            songNumber--
+        if (songNumber < 0){
+            songNumber = songID.length - 1
+        }
         changePlayerInfo(songList[songNumber])
-    }
+        }
+        else if(shuffled){
+            shuffle()
+            changePlayerInfo(songList[songNumber])
+        }
+        setTimeout(() => {
+            textReDecor()
+        }, 500);
+    }, 500);
 }
-
 function shuffle(){
     let x
     let y
@@ -116,22 +132,29 @@ function shuffle(){
         y = Math.floor(Math.random() * songID.length) + 0
     }
     songNumber = y
-    console.log(songNumber)
 }
 
 
 
 
 
-let sButton = document.getElementById('shufButton')
+
+
+
 
 // MUSIC CONTROLLERS
+prevButton.onclick = function(){
+    prev()
+}
 pButton.onclick = function(){
     if(!musicOn){
         playSong()
     } else if(musicOn){
         pauseSong()
     }
+}
+nextButton.onclick = function(){
+    next()
 }
 mButton.onclick = function(){
     if(volumeOn){
@@ -154,68 +177,7 @@ sButton.onclick = function(){
 
 
 
-// OPTION CONTAINERS
-function rightSlide(x){
-    let root = getComputedStyle(document.querySelector(`:root`))
-    let rightSize = root.getPropertyValue('--rightSize')
-    if(window.innerWidth <= 720){
-    const finalSize = Number(rightSize.slice(0, -2))
 
-    let abc = x * finalSize
-    let translation = 0-abc
-    
-    rCont.style.transform = `translateX(${translation}vw)`
-    } else{
-        const finalSize = Number(rightSize.slice(0, -3))
-    
-        let abc = x * finalSize
-        let translation = 0-abc
-        
-        rCont.style.transform = `translateX(${translation}rem)`
-    }
-}
-rightSlide(1)
-
-
-
-// ANDROID SECTIONS
-function sectionOne(){
-    document.getElementById("buttons").style.width = '0'
-document.getElementById("rightContainer").style.width = '0'
-    setTimeout(() => {
-    document.getElementById("leftContainer").style.transform = 'translateX(0%)'
-    document.getElementById('playingIcon').style.transform = ''
-    document.getElementById('ptTitle').style.transform = ''
-    document.getElementById('ptSinger').style.transform = ''
-    document.getElementById("buttons").style.width = '0'
-document.getElementById("rightContainer").style.width = '0'
-    }, 450);
-}
-function sectionTwo(){
-    document.getElementById("leftContainer").style.transform = 'translateX(-100%)'
-    document.getElementById('playingIcon').style.transform = 'translateX(-100%)'
-    document.getElementById('ptTitle').style.transform = 'translateX(200%)'
-    document.getElementById('ptSinger').style.transform = 'translateX(-200%)'
-    setTimeout(() => {
-    document.getElementById("rightContainer").style.width = ''
-    document.getElementById("buttons").style.width = ''
-    document.getElementById("leftContainer").style.transform = 'translateX(-100%)'
-    document.getElementById('playingIcon').style.transform = 'translateX(-100%)'
-    document.getElementById('ptTitle').style.transform = 'translateX(200%)'
-    document.getElementById('ptSinger').style.transform = 'translateX(-200%)'
-    }, 450);
-}
-if (window.innerWidth <= 720) {
-    sectionOne()
-    document.body.appendChild(document.getElementById('playingControls'))
-    document.body.appendChild(document.getElementById('rightContainer'))
-    document.body.appendChild(document.getElementById('buttons'))
-    document.body.appendChild(document.getElementById('leftContainer'))
-    document.body.appendChild(document.getElementById('sectionSliders'))
-    document.getElementById('playingText').appendChild(document.getElementById('playingIcon'))
-    document.getElementById('playingText').appendChild(document.getElementById('ptSinger'))
-    document.getElementById('playingText').appendChild(document.getElementById('ptTitle'))
-}
 
 
 // MUSIC
@@ -245,7 +207,6 @@ for (let i = 0; i < songID.length; i++) {
         </div>
     </div>
     `
-    console.log(songItem[i])
 }
 document.getElementById(`song1`).classList.add('songNow')
 document.getElementById('ptTitle').innerText = songList[0].name
@@ -259,16 +220,142 @@ function changePlayerInfo(x){
         plbg.style.backdropFilter = `blur(3rem) brightness(50%) saturate(20%)`
         plicon.style.filter = `brightness(100%)`
     }, 500);
-    pltitle.innerText = x.name
-    plsgr.innerText = x.singer
     audioFile.src = x.audio
     playSong()
-    if (window.innerWidth <= 720) {
-        sectionOne()
-    }
     songNumber = x.id - 1
     for (let i = 0; i < songID.length; i++) {
         document.getElementById(`song${songID[i]}`).classList.remove('songNow')
     }
     document.getElementById(`song${x.id}`).classList.add('songNow')
+}
+
+
+let trasongs = document.querySelectorAll('.songItem')
+// ANDROID SECTIONS
+section.onclick = function(){
+    if (playerOn){
+        rcont.style.transform = 'translateX(-50%)'
+        plicon.style.transform = 'translateX(-100%) rotateZ(30deg)'
+        pltitle.style.transform = 'translateX(-300%)'
+        pltitle.style.letterSpacing = '1rem'
+        plsgr.style.transform = 'translateX(-200%)'
+        plsgr.style.letterSpacing = '1rem'
+        plsgr.style.opacity = '0%'
+        playerOn = false
+        const move = async () => {
+            for (let i = 0; i < trasongs.length; i++) {
+                await sleep(30)
+                trasongs[i].style.transform = 'translateX(0%)'
+            }
+        }
+        move()
+    }else{
+        rcont.style.transform = 'translateX(0%)'
+        plicon.style.transform = ''
+        pltitle.style.transform = ''
+        pltitle.style.letterSpacing = ''
+        plsgr.style.transform = ''
+        plsgr.style.letterSpacing = ''
+        plsgr.style.opacity = '100%'
+        playerOn = true
+        const move = async () => {
+            for (let i = 0; i < trasongs.length; i++) {
+                await sleep(30)
+                trasongs[i].style.transform = 'translateX(50%)'
+            }
+        }
+        move()
+    }
+}
+if (window.innerWidth <= 720) {
+    document.body.appendChild(document.getElementById('audioDiv'))
+}
+
+
+
+
+const sleep = (time) => {
+    return new Promise((resolve) => setTimeout(resolve, time))
+}
+function textDecor(){
+    let decoOne = pltitle.innerText.split('')
+    let decoTwo = plsgr.innerText.split('')
+    let numdo = decoOne.length
+    let numdt = decoTwo.length
+    pltitle.innerHTML = ''
+    plsgr.innerHTML = ''
+    for (let i = 0; i < numdo; i++) {
+        pltitle.innerHTML+= `<strong class='strong'>${decoOne[i]}</strong>`
+    }
+    for (let i = 0; i < numdt; i++) {
+        plsgr.innerHTML+= `<span class='singername'>${decoTwo[i]}</span>`
+    }
+    let strong = document.querySelectorAll('.strong')
+    let span = document.querySelectorAll('.singername')
+    const doSomething = async () => {
+        for (let i = 0; i < numdo; i++) {
+            await sleep(10)
+            strong[i].style.color = 'var(--iconAccent)'
+            setTimeout(() => {
+                strong[i].classList.add('tilted')
+            }, 500);
+        }
+        for (let i = 0; i < numdt; i++) {
+            await sleep(10)
+            span[i].style.color = 'var(--iconAccent)'
+            setTimeout(() => {
+                span[i].classList.add('upped')
+            }, 500);
+        }
+        pltitle.style.opacity = '0%'
+        plsgr.style.opacity = '0%'
+    }
+    doSomething()
+}
+function textReDecor(){
+    pltitle.innerText = songList[songNumber].name
+    pltitle.classList.add('tilted')
+    plsgr.innerText = songList[songNumber].singer
+    plsgr.classList.add('upped')
+    let decoOne = pltitle.innerText.split('')
+    let decoTwo = plsgr.innerText.split('')
+    let numdo = decoOne.length
+    let numdt = decoTwo.length
+    pltitle.innerHTML = ''
+    plsgr.innerHTML = ''
+    for (let i = 0; i < numdo; i++) {
+        pltitle.innerHTML+= `<strong class='strong'>${decoOne[i]}</strong>`
+    }
+    for (let i = 0; i < numdt; i++) {
+        plsgr.innerHTML+= `<span class='singername'>${decoTwo[i]}</span>`
+    }
+    let strong = document.querySelectorAll('.strong')
+    let span = document.querySelectorAll('.singername')
+    const doSomething = async () => {
+        for (let i = 0; i < numdo; i++) {
+            await sleep(0)
+            strong[i].style.color = 'var(--iconAccent)'
+            strong[i].classList.add('tilted')
+        }
+        for (let i = 0; i < numdt; i++) {
+            await sleep(0)
+            span[i].style.color = 'var(--iconAccent)'
+            span[i].classList.add('upped')
+        }
+        setTimeout(() => {
+            pltitle.style.opacity = '100%'
+            plsgr.style.opacity = '100%'
+        }, 100);
+        for (let i = 0; i < numdo; i++) {
+            await sleep(10)
+            strong[i].classList.remove('tilted')
+            strong[i].style.color = 'white'
+        }
+        for (let i = 0; i < numdt; i++) {
+            await sleep(10)
+            span[i].style.color = 'white'
+            span[i].classList.remove('upped')
+        }
+    }
+    doSomething()
 }

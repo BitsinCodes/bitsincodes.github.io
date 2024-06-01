@@ -1,6 +1,6 @@
 :root {
     --iconAccent: #978E75;
-    --rightSize: 40rem;
+    --rightSize: 35rem;
     --formBigText: 2rem;
     --formSmallText: 1.5rem;
 }
@@ -11,7 +11,7 @@ body{
     width: 100vw;
     height: 100vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin: 0;
     justify-content: space-evenly;
     align-items: center;
@@ -50,6 +50,9 @@ body:after{
     opacity: 50%;
     transition: 0.5s all;
 }
+#sectionOne{
+    display: none;
+}
 #bodyContainer{
     display: flex;
     flex-direction: row;
@@ -57,6 +60,7 @@ body:after{
     justify-content: space-evenly;
     align-items: center;
     width: 100vw;
+    height: 100%;
     overflow: hidden;
 }
 .row{
@@ -75,13 +79,16 @@ button{
 }
 #leftContainer{
     background-color: rgba(0, 0, 0, 0.39);
-    border-radius: 25px;
+    height: 100%;
+    justify-content: center;
     color: white;
 }
 #playingInfo{
     justify-content: center;
     align-items: center;
     gap: 1.25rem;
+    height: 100%;
+    position: relative;
     padding: 2.7rem;
 }
 #playingIcon{
@@ -94,27 +101,50 @@ button{
     align-items: start;
     justify-content: center;
     width: 100%;
+    height: 5rem;
     transition: 1s all;
 }
 #playingText strong{
     font-size: 3rem;
+    transition: 0.5s all, 1s opacity;
 }
 #playingText span{
     font-size: 2rem;
+    transition: 0.5s all, 1s opacity;
+}
+#playingText span.upped{
+    display: flexbox;
+    font-size: 1.4rem;
+    margin-right: 1rem;
+    opacity: 0%;
+}
+#playingText strong.tilted{
+    display: flexbox;
+    margin-right: 1rem;
+    font-size: 2rem;
+    opacity: 0%;
 }
 #ptSinger, #ptTitle{
-    transition: 1s all;
+    transition: 0.5s all, 1s opacity;
+}
+#audioDiv{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 }
 #playingControls{
     width: 100%;
     justify-content: space-between;
+    border-radius: 25px;
 }
-#playingControls button{
-    width: 4rem;
+#playingControls button,#sectionOne{
+    width: 100%;
     height: 4rem;
     border: none;
-    background-color: rgba(0, 0, 0, 0.301);
-    border-radius: 25px;
+    background: none;
     color: white;
     font-size: 1.5rem;
     cursor: pointer;
@@ -124,12 +154,10 @@ button{
 }
 #playingSeekBar{
     font-size: 1.25rem;
-    width: 100%;
+    width: 90%;
     align-items: center;
     justify-content: space-between;
 }
-
-
 audio {
     width: 100%;
     height: 2rem;
@@ -198,36 +226,39 @@ audio::-webkit-media-controls-fullscreen-volume-min-button{
 audio::-webkit-media-controls-fullscreen-volume-max-button{
     display: none;
 }
-#rightContainer{
-    width: var(--rightSize);
-    align-items: start;
+#mainContainer{
+    width: 100%;
+    height: 100%;
+    align-items: center;
     justify-content: center;
-    overflow: hidden;
+    /* overflow: scroll; */
 }
 #rcont{
-    width: calc(var(--rightSize)*3);
+    width: 100%;
     opacity: 90%;
-    align-items: center;
-    justify-content: space-between;
+    height: 100%;
+    /* align-items: start; */
+    justify-content: start;
     transition: 0.5s all;
 }
 .rcontmain{
-    width: var(--rightSize);
-    padding: 1rem;
     background-color: rgba(0, 0, 0, 0.39);
-    border-radius: 25px;
     color: white;
     overflow: hidden;
 }
 .songAlbum{
-    justify-content: space-between;
-    gap: 1rem;
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+    align-items: start;
+    gap: 0;
 }
 #songList{
     width: 100%;
+    /* height: 95.5%; */
     gap: 0.5rem;
-    padding: 0;
-    max-height: calc(5 * (5rem + 0.4rem + 0.4rem));
+    padding: 1rem;
+    /* height: 100%; */
     overflow: scroll;
     scroll-snap-type: y mandatory;
 }
@@ -272,12 +303,221 @@ audio::-webkit-media-controls-fullscreen-volume-max-button{
 .songVert{
     writing-mode: vertical-rl;
     text-orientation: mixed;
-    padding: 0.2rem;
+    padding: 0 1rem 0 0;
     text-align: center;
+    height: 100%;
 }
 
 
-#uploadForm{
+#playerInfo{
+    position: absolute;
+}
+
+
+#buttons{
+    gap: 1rem;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+#buttons button{
+    background-color: rgba(0, 0, 0, 0.39);
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    color: var(--iconAccent);
+}
+#buttons button:hover,#playingControls button:hover, #sectionSliders button:hover,#sectionOne:hover{
+    background-color: rgba(0, 0, 0, 0.568);
+}
+
+@media (max-width:1920px){}
+@media (max-width:720px) {
+    :root{
+        --rightSize: 100vw;
+        --formBigText: 2rem;
+        --formSmallText: 1.5rem;
+    }
+    body{
+        flex-direction: column;
+        align-items: center;
+        height: 100svh;
+        width: 100svw;
+        justify-content: space-between;
+        gap: 0;
+        padding: 0;
+        margin: 0;
+    }
+    body:before{
+        width: 15rem;
+        height: 15rem;
+        filter: blur(3rem);
+        top: -10%;
+        left: -10%;
+    }
+    body:after{
+        width: 15rem;
+        height: 15rem;
+        filter: blur(2rem);
+        bottom: -10%;
+    }
+    #sectionOne{
+        display: block;
+    }
+    #playingInfo{
+        height: 100svh;
+        padding: 0;
+        overflow: visible;
+        flex-direction: row;
+    }
+    #playingIcon{
+        width: 75%;
+    }
+    #playingText{
+        height: 50%;
+        display: flex;
+        flex-direction: row;
+        width: auto;
+        gap: 0.5rem;
+    }
+    #playingText strong{
+        font-size: 3rem;
+        transition: 1s all;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+    }
+    #playingText span{
+        font-size: 1rem;
+        transition: 1s all;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+    }
+    #audioDiv{
+        gap: 0;
+        justify-content: center;
+        align-items: center;
+        position: static;
+        background-color: rgba(0, 0, 0, 0.39);
+    }
+    #playingControls{
+        z-index: 3;
+        justify-content: center;
+        bottom: 0;
+        gap: 0;
+        transition: 1s all;
+    }
+    #playingControls button{
+        width: 100%;
+        height: 6rem;
+        font-size: 2.2rem;
+        border-radius: 0;
+        background: none;
+    }
+    #sectionOne{
+        width: 20%;
+    }
+    #playingSeekBar{
+        width: 100%;
+    }
+    #audioFile{
+        padding: 0 0 0 1rem;
+        width: 75%;
+    }
+    audio::-webkit-media-controls-current-time-display,
+    audio::-webkit-media-controls-time-remaining-display{
+        font-size: 1.1rem;
+    }
+    audio::-webkit-media-controls-timeline{
+        margin-left: 1.8rem;
+    }
+    .songText, .songText div{
+        font-size: 1rem;
+    }
+    #sectionSliders, #buttons{
+        display: flex;
+        flex-direction: row;
+        gap: 0;
+        height: 5rem;
+        width: 100%;
+    }
+    #sectionSliders button,#buttons button{
+        width: 100%;
+        height: 5rem;
+        font-size: 2.2rem;
+        /* border: none; */
+        color: var(--iconAccent);
+        background-color: rgba(0, 0, 0, 0.39);
+        border: none;
+        border-radius: 0;
+    }
+    #uploadForm{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+    #leftContainer{
+        width: 100vw;
+        border-radius: 0;
+        justify-content: center;
+        align-items: center;
+        z-index: -1;
+    }
+    #sectionSliders{
+        z-index: 2;
+    }
+    #mainContainer,#leftContainer,#buttons{
+        transition: 1s all;
+        overflow: hidden;
+    }
+    #mainContainer{
+        width: 100vw;
+        justify-content: center;
+        align-items: end;
+    }
+    #bodyContainer{
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+        transition: 1s all;
+        /* overflow-x: scroll; */
+    }
+    #rcont{
+        align-items: center;
+        justify-content: center;
+        width: 200vw;
+        transition: 1s all;
+    }
+    .songAlbum{
+        width: 100vw;
+        padding-top: 1rem;
+    }
+    #songList{
+        height: 95.5%;
+    }
+    .songItem{
+        transform: translateX(50%);
+    }
+    #playingText{
+        width: 6rem;
+    }
+    #playingText strong.tilted{
+        display: flexbox;
+        margin-top: 0.5rem;
+        font-size: 2rem;
+    }
+}
+
+/* #uploadForm{
     align-items: center;
     gap: 0.5rem;
     font-size: var(--formBigText);
@@ -325,173 +565,4 @@ input[type="submit"],input[type="button"]{
 }
 input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{
     display: none;
-}
-
-#buttons{
-    gap: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-#buttons button{
-    background-color: rgba(0, 0, 0, 0.39);
-    width: 4rem;
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    color: var(--iconAccent);
-}
-#buttons button:hover,#playingControls button:hover, #sectionSliders button:hover{
-    background-color: rgba(0, 0, 0, 0.568);
-}
-
-@media (max-width:1920px){}
-@media (max-width:720px) {
-    :root{
-        --rightSize: 100vw;
-        --formBigText: 2rem;
-        --formSmallText: 1.5rem;
-    }
-    body{
-        flex-direction: column-reverse;
-        align-items: center;
-        overflow: hidden;
-        height: 100svh;
-        width: 100svw;
-        justify-content: space-between;
-        gap: 0;
-        padding: 0;
-        margin: 0;
-    }
-    body:before{
-        width: 15rem;
-        height: 15rem;
-        filter: blur(3rem);
-        top: -10%;
-        left: -10%;
-    }
-    body:after{
-        width: 15rem;
-        height: 15rem;
-        filter: blur(2rem);
-        bottom: -10%;
-    }
-    #playingInfo{
-        width: 100svw;
-        height: 100svh;
-        padding: 0;
-        overflow: visible;
-    }
-    #playingIcon{
-        width: 75%;
-    }
-    #playingText{
-        display: flex;
-        flex-direction: row;
-        width: auto;
-        gap: 0.5rem;
-    }
-    #playingText strong{
-        font-size: 3rem;
-        writing-mode: vertical-rl;
-        text-orientation: mixed;
-    }
-    #playingText span{
-        font-size: 1rem;
-        writing-mode: vertical-rl;
-        text-orientation: mixed;
-    }
-    #playingControls{
-        z-index: 3;
-        justify-content: center;
-        bottom: 0;
-        gap: 0;
-        transition: 1s all;
-    }
-    #playingControls button{
-        width: 100%;
-        height: 6rem;
-        font-size: 2.2rem;
-        border-radius: 0;
-    }
-    audio::-webkit-media-controls-current-time-display,
-    audio::-webkit-media-controls-time-remaining-display{
-        font-size: 1.1rem;
-    }
-    audio::-webkit-media-controls-timeline{
-        margin-left: 1.8rem;
-    }
-    .songText, .songText div{
-        font-size: 1rem;
-    }
-    #sectionSliders, #buttons{
-        display: flex;
-        flex-direction: row;
-        gap: 0;
-        height: 5rem;
-        width: 100%;
-    }
-    #sectionSliders button,#buttons button{
-        width: 100%;
-        height: 5rem;
-        font-size: 2.2rem;
-        /* border: none; */
-        color: var(--iconAccent);
-        background-color: rgba(0, 0, 0, 0.39);
-        border: none;
-        border-radius: 0;
-    }
-    .rcontmain{
-        height: 100vh;
-        border-radius: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .songAlbum{
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-    }
-    #songList{
-        width: 100%;
-        gap: 0.5rem;
-        height: calc(6 * (5rem + 0.45rem + 0.4rem));
-        max-height: calc(8 * (5rem + 0.45rem + 0.4rem));
-        overflow: scroll;
-        scroll-snap-type: y mandatory;
-    }
-    #uploadForm{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-    }
-    #leftContainer{
-        width: 100vw;
-        position: absolute;
-        /* position: absolute; */
-        border-radius: 0;
-        justify-content: center;
-        background: none;
-        align-items: center;
-        z-index: -1;
-    }
-    #rightContainer{
-        width: 100vw;
-        /* width: 0; */
-    }
-    #sectionSliders{
-        z-index: 2;
-    }
-    #rightContainer,#leftContainer,#buttons{
-        transition: 1s all;
-        overflow: hidden;
-    }
-}
+} */

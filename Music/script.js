@@ -29,7 +29,7 @@ for (let i = 0; i < songID.length; i++) {
     }
 }
 let singerName = [`the Kid LAROI`, 'Zach B', 'Zach B', 'M.I.A.', 'Seafret', 'Chevy', 'Krishnahazar', 'Chevy']
-let uploader = [`chipp`, 'chipp', 'chipp', 'Maxi', 'Monkey', 'Mahdi', 'Hell', 'Mahdi']
+let uploader = [`Bitsin`, 'Bitsin', 'Bitsin', 'Maxi', 'Monkey', 'Mahdi', 'Hell', 'Mahdi']
 let accent = [`#978E75`, `#c264a6`, '#272571', '#715755', '#564E4B', '#846699', '#AD825D', '#72556B']
 
 let jpglink = `https://lets.linkpc.net/icons/`
@@ -87,8 +87,6 @@ function unmute(){
     volumeOn = true
 }
 function next(){
-    textDecor()
-    setTimeout(() => {
     if(!shuffled){
     songNumber++
     if (songNumber >= songID.length){
@@ -99,14 +97,10 @@ function next(){
         shuffle()
         changePlayerInfo(songList[songNumber])
     }
-    setTimeout(() => {
-        textReDecor()
-    }, 300);
-}, 100);
+    textUpdate2()
+    textUpdate()
 }
 function prev(){
-    textDecor()
-    setTimeout(() => {
         if(!shuffled){
             songNumber--
         if (songNumber < 0){
@@ -118,10 +112,8 @@ function prev(){
             shuffle()
             changePlayerInfo(songList[songNumber])
         }
-        setTimeout(() => {
-            textReDecor()
-        }, 300);
-    }, 100);
+        textUpdate2()
+        textUpdate()
 }
 function shuffle(){
     let x
@@ -214,14 +206,14 @@ function changePlayerInfo(x){
     root.style.setProperty('--iconAccent', x.accent)
     plbg.style.backdropFilter = `blur(3rem) brightness(0%) saturate(20%)`
     plicon.style.filter = `brightness(0%)`
-    textDecor()
-    setTimeout(() => {
-        plbg.style.backgroundImage = `url(${x.avatar}`
-        plicon.src = x.avatar
-        textReDecor()
-        plbg.style.backdropFilter = `blur(3rem) brightness(50%) saturate(20%)`
-        plicon.style.filter = `brightness(100%)`
-    }, 500);
+    plicon.style.scale = '0.9'
+        setTimeout(() => {
+            plbg.style.backgroundImage = `url(${x.avatar}`
+            plicon.src = x.avatar
+            plbg.style.backdropFilter = `blur(3rem) brightness(50%) saturate(20%)`
+            plicon.style.filter = `brightness(100%)`
+            plicon.style.scale = '1'
+        }, 250);
     audioFile.src = x.audio
     playSong()
     songNumber = x.id - 1
@@ -279,85 +271,63 @@ if (window.innerWidth <= 720) {
 const sleep = (time) => {
     return new Promise((resolve) => setTimeout(resolve, time))
 }
-function textDecor(){
-    let decoOne = pltitle.innerText.split('')
-    let decoTwo = plsgr.innerText.split('')
-    let numdo = decoOne.length
-    let numdt = decoTwo.length
-    pltitle.innerHTML = ''
-    plsgr.innerHTML = ''
-    for (let i = 0; i < numdo; i++) {
-        pltitle.innerHTML+= `<strong class='strong'>${decoOne[i]}</strong>`
+function textUpdate(){
+let hold1 = document.getElementById('ptTitle')
+let hold2 = songList[songNumber].name
+let charr1 = hold1.innerText.split('')
+let charr2 = hold2.split('')
+if (charr1.length>charr2.length) {
+    for (let i = charr2.length; i < charr1.length; i++) {
+        charr2.push('')
     }
-    for (let i = 0; i < numdt; i++) {
-        plsgr.innerHTML+= `<span class='singername'>${decoTwo[i]}</span>`
-    }
-    let strong = document.querySelectorAll('.strong')
-    let span = document.querySelectorAll('.singername')
-    const doSomething = async () => {
-        for (let i = 0; i < numdo; i++) {
-            await sleep(10)
-            strong[i].style.color = 'var(--iconAccent)'
-            setTimeout(() => {
-                strong[i].classList.add('tilted')
-            }, 200);
-        }
-        for (let i = 0; i < numdt; i++) {
-            await sleep(10)
-            span[i].style.color = 'var(--iconAccent)'
-            setTimeout(() => {
-                span[i].classList.add('upped')
-            }, 200);
-        }
-        pltitle.style.opacity = '0%'
-        plsgr.style.opacity = '0%'
-    }
-    doSomething()
 }
-function textReDecor(){
-    pltitle.innerText = songList[songNumber].name
-    pltitle.classList.add('tilted')
-    plsgr.innerText = songList[songNumber].singer
-    plsgr.classList.add('upped')
-    let decoOne = pltitle.innerText.split('')
-    let decoTwo = plsgr.innerText.split('')
-    let numdo = decoOne.length
-    let numdt = decoTwo.length
-    pltitle.innerHTML = ''
-    plsgr.innerHTML = ''
-    for (let i = 0; i < numdo; i++) {
-        pltitle.innerHTML+= `<strong class='strong'>${decoOne[i]}</strong>`
+if (charr2.length>charr1.length) {
+    for (let i = charr1.length; i < charr2.length; i++) {
+        charr1.push('')
     }
-    for (let i = 0; i < numdt; i++) {
-        plsgr.innerHTML+= `<span class='singername'>${decoTwo[i]}</span>`
+}
+hold1.innerHTML = ''
+for (let i = 0; i < charr1.length; i++) {
+    hold1.innerHTML+= `<strong class="textSelect1">${charr1[i]}</strong>`
+}
+let hold3 = document.querySelectorAll('.textSelect1')
+
+    const textExchange1 = async () => {
+        for (let i = 0; i < hold3.length; i++) {
+                hold3[i].classList.add('fade1')
+                await sleep(50)
+                hold3[i].innerHTML = charr2[i]
+            }
+        }
+    textExchange1()
+}
+function textUpdate2(){
+let singh1 = document.getElementById('ptSinger')
+let singh2 = songList[songNumber].singer
+let charr3 = singh2.split('')
+let charr4 = singh1.innerText.split('')
+if (charr3.length>charr4.length) {
+    for (let i = charr4.length; i < charr3.length; i++) {
+        charr4.push('')
+        console.log('hi')
     }
-    let strong = document.querySelectorAll('.strong')
-    let span = document.querySelectorAll('.singername')
-    const doSomething = async () => {
-        for (let i = 0; i < numdo; i++) {
-            await sleep(0)
-            strong[i].style.color = 'var(--iconAccent)'
-            strong[i].classList.add('tilted')
-        }
-        for (let i = 0; i < numdt; i++) {
-            await sleep(0)
-            span[i].style.color = 'var(--iconAccent)'
-            span[i].classList.add('upped')
-        }
-        setTimeout(() => {
-            pltitle.style.opacity = '100%'
-            plsgr.style.opacity = '100%'
-        }, 100);
-        for (let i = 0; i < numdo; i++) {
-            await sleep(10)
-            strong[i].classList.remove('tilted')
-            strong[i].style.color = 'white'
-        }
-        for (let i = 0; i < numdt; i++) {
-            await sleep(10)
-            span[i].style.color = 'white'
-            span[i].classList.remove('upped')
-        }
+}
+if (charr4.length>charr3.length) {
+    for (let i = charr3.length; i < charr4.length; i++) {
+        charr3.push('')
     }
-    doSomething()
+}
+    singh1.innerHTML = ''
+for (let i = 0; i < charr3.length; i++) {
+        singh1.innerHTML+= `<span class="textSelect2">${charr4[i]}</span>`
+    }
+    let hold4 = document.querySelectorAll('.textSelect2')
+    const textExchange2 = async () => {
+        for (let i = 0; i < hold4.length; i++) {
+                hold4[i].classList.add('fade2')
+                await sleep(50)
+                hold4[i].innerHTML = charr3[i]
+            }
+        }
+        textExchange2()
 }

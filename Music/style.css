@@ -95,7 +95,7 @@ button{
     border-radius: 30px;
     width: 27rem;
     filter: brightness(100%);
-    transition: 0.5s all, 1s transform;
+    transition: 0.1s all, 0.5s transform;
 }
 #playingText{
     align-items: start;
@@ -106,26 +106,52 @@ button{
 }
 #playingText strong{
     font-size: 3rem;
-    transition: 0.5s all, 1s opacity;
 }
 #playingText span{
     font-size: 2rem;
-    transition: 0.5s all, 1s opacity;
-}
-#playingText span.upped{
-    display: flexbox;
-    font-size: 1.4rem;
-    margin-right: 1rem;
-    opacity: 0%;
-}
-#playingText strong.tilted{
-    display: flexbox;
-    margin-right: 1rem;
-    font-size: 2rem;
-    opacity: 0%;
 }
 #ptSinger, #ptTitle{
-    transition: 0.5s all, 1s opacity;
+    transition: 0.5s all;
+}
+.fade1{
+    animation: fade1 0.3s forwards;
+}
+@keyframes fade1 {
+    0%{
+        color: var(--iconAccent);
+    }
+    50%{
+        margin-right: 2rem;
+        font-size: 2rem;
+        opacity: 0%;
+        color: var(--iconAccent);
+    }
+    90%{
+        color: var(--iconAccent);
+    }
+    100%{
+        opacity: 100%;
+    }
+}
+.fade2{
+    animation: fade2 0.3s forwards;
+}
+@keyframes fade2 {
+    0%{
+        color: var(--iconAccent);
+    }
+    50%{
+        margin-right: 0.5rem;
+        font-size: 1.4rem;
+        opacity: 0%;
+        color: var(--iconAccent);
+    }
+    90%{
+        color: var(--iconAccent);
+    }
+    100%{
+        opacity: 100%;
+    }
 }
 #audioDiv{
     position: absolute;
@@ -254,6 +280,7 @@ audio::-webkit-media-controls-fullscreen-volume-max-button{
     gap: 0;
 }
 #songList{
+    font-size: 5rem;
     width: 100%;
     /* height: 95.5%; */
     gap: 0.5rem;
@@ -261,6 +288,10 @@ audio::-webkit-media-controls-fullscreen-volume-max-button{
     /* height: 100%; */
     overflow: scroll;
     scroll-snap-type: y mandatory;
+    align-items: center;
+}
+#songList button{
+    font-size: 5rem;
 }
 #songList::-webkit-scrollbar{
     width: 0;
@@ -268,6 +299,7 @@ audio::-webkit-media-controls-fullscreen-volume-max-button{
 }
 .songItem{
     gap: 0.5rem;
+    width: 100%;
     background-color: rgba(0, 0, 0, 0.39);
     border-radius: 5px;
     padding: 0.2rem;
@@ -388,15 +420,30 @@ audio::-webkit-media-controls-fullscreen-volume-max-button{
     }
     #playingText strong{
         font-size: 3rem;
-        transition: 1s all;
         writing-mode: vertical-rl;
         text-orientation: mixed;
     }
     #playingText span{
         font-size: 1rem;
-        transition: 1s all;
         writing-mode: vertical-rl;
         text-orientation: mixed;
+    }
+    @keyframes fade2 {
+        0%{
+            color: var(--iconAccent);
+        }
+        50%{
+            margin-right: 0.5rem;
+            font-size: 0.4rem;
+            opacity: 0%;
+            color: var(--iconAccent);
+        }
+        90%{
+            color: var(--iconAccent);
+        }
+        100%{
+            opacity: 100%;
+        }
     }
     #audioDiv{
         gap: 0;
@@ -509,11 +556,10 @@ audio::-webkit-media-controls-fullscreen-volume-max-button{
     }
     #playingText{
         width: 6rem;
-    }
-    #playingText strong.tilted{
-        display: flexbox;
-        margin-top: 0.5rem;
-        font-size: 2rem;
+        height: 70%;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
     }
 }
 
